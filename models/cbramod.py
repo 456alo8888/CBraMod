@@ -43,6 +43,8 @@ class PatchEmbedding(nn.Module):
         self.mask_encoding = nn.Parameter(torch.zeros(in_dim), requires_grad=False)
         # self.mask_encoding = nn.Parameter(torch.randn(in_dim), requires_grad=True)
 
+
+        #For encoding the time-domain branch 
         self.proj_in = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=25, kernel_size=(1, 49), stride=(1, 25), padding=(0, 24)),
             nn.GroupNorm(5, 25),
@@ -56,6 +58,8 @@ class PatchEmbedding(nn.Module):
             nn.GroupNorm(5, 25),
             nn.GELU(),
         )
+
+        #For encoding the frequency-domain branch
         self.spectral_proj = nn.Sequential(
             nn.Linear(101, d_model),
             nn.Dropout(0.1),
